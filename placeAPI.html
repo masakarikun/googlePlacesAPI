@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<form>
+<input type="text" value="cafe" id="address">
+ <button type="button" onClick="buttonclick();">search</button>
+</form>
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas { height: 100% }
+</style>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<script type="text/javascript">
+var map;
+var latlng;
+function sample1() {
+ latlng = new google.maps.LatLng(35.681382, 139.766084);
+var opts = {
+//地図の縮尺
+zoom: 15,
+//地図の中心座標
+center: latlng,
+//地図の種類
+mapTypeId: google.maps.MapTypeId.ROADMAP,
+};
+//マップの表示
+map = new google.maps.Map(document.getElementById("map_canvas1"), opts);
+
+}
+
+//マーカーを表示
+function createPhotoMarker(place) {
+  var photos = place.photos;
+  if (!photos) {
+    return;
+  }
+ 
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location,
+    title: place.name,
+    icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35})
+  });
+  
+  var infowindow = new google.maps.InfoWindow();
+     google.maps.event.addListener(marker, 'click', function() {
+            var content = place.name;
+            infowindow.setContent(content);
+            infowindow.open(map, this);
+            });
+}
+   // ボタンがクリックされると呼び出されるfunction
+    function buttonclick() {
+      // buttonのElementを取得
+      var button = document.getElementById("button");
+      var address = document.getElementById("address").value;
+    //検索パラメータ
+var request = {
+//検索の中心座標
+location: latlng,
+//検索の範囲(メートル)
+radius: '500',
+//検索文字列
+query: address
+};
+//プレイス検索
+service = new google.maps.places.PlacesService(map);
+service.textSearch(request, callback);
+}
+//検索結果の処理
+function callback(results, status) {
+if (status == google.maps.places.PlacesServiceStatus.OK) {
+for (var i = 0; i < results.length; i++) {
+createPhotoMarker(results[i]);
+}
+}
+    }
+
+
+
+window.onload = sample1;
+</script>
+</head>
+<body>
+<div id="map_canvas1" style="width:100%; height:100%"></div>
+</body>
+</html>
