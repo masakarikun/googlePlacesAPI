@@ -2,9 +2,14 @@
 <html>
 <head>
 <form>
+<select  id="select">
+<option value="cafe">cafe</option>
+<option value="restaurant">restaurant</option>
+<option value="shopping">shopping</option>
+</select>
 <input type="text" value="cafe" id="address">
-<input type="text" value="cafe" id="placeCenter">
-<input type="text" value="radius" id="placeRadius">
+<input type="text" value="input latlng" id="placeCenter">
+<input type="text" value="500" id="placeRadius">
  <button type="button" onClick="buttonclick();">search</button>
 </form>
 
@@ -61,7 +66,7 @@ function createPhotoMarker(place) {
       var button = document.getElementById("button");
       var address = document.getElementById("address").value;
       var radiusPlace = document.getElementById("placeRadius").value;
-      
+      var placeName = document.getElementById("select").value;      
     //検索パラメータ
 var request = {
 //検索の中心座標
@@ -69,7 +74,7 @@ location: latlng,
 //検索の範囲(メートル)
 radius: radiusPlace,
 //検索文字列
-query: address
+query: placeName
 };
 //プレイス検索
 service = new google.maps.places.PlacesService(map);
