@@ -3,6 +3,8 @@
 <head>
 <form>
 <input type="text" value="cafe" id="address">
+<input type="text" value="cafe" id="placeCenter">
+<input type="text" value="radius" id="placeRadius">
  <button type="button" onClick="buttonclick();">search</button>
 </form>
 
@@ -58,12 +60,14 @@ function createPhotoMarker(place) {
       // buttonのElementを取得
       var button = document.getElementById("button");
       var address = document.getElementById("address").value;
+      var radiusPlace = document.getElementById("placeRadius").value;
+      
     //検索パラメータ
 var request = {
 //検索の中心座標
 location: latlng,
 //検索の範囲(メートル)
-radius: '500',
+radius: radiusPlace,
 //検索文字列
 query: address
 };
